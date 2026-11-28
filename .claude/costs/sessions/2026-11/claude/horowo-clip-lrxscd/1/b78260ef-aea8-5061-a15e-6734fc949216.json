@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 158781,
+    "cacheReadTokens": 3434930,
+    "outputTokens": 65373,
+    "thinkingTokens": 24549,
+    "responses": 23,
+    "costUsd": 5.842818
+  },
+  "estimate": {
+    "at": "2026-11-28T10:11:18.592Z",
+    "subjectLine": "feat: storyboard and build of the «Хорошо!» music video",
+    "parts": [
+      {
+        "hours": 60.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "A two-minute character-animated clip: cast design, storyboard in three variants, every scene drawn and animated to the beat"
+      },
+      {
+        "hours": 32.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "A deterministic frame-by-frame renderer synced to the audio, a page that plays it and an mp4 export"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "Beat grid, section map and vocal onsets that the cuts and the hinged jaw are timed against"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Briefing and merging child sessions, keeping the board and the plan current"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:00:32.748Z",
+    "contextTokens": 103983,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47687,
+      "cacheReadTokens": 149583,
+      "outputTokens": 797,
+      "thinkingTokens": 61,
+      "responses": 2,
+      "costUsd": 0.8248206000000001
+    }
+  },
+  "sessionId": "b78260ef-aea8-5061-a15e-6734fc949216",
+  "branch": "claude/horowo-clip-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche давай снимем клип на песню \"Хорошо!\" из #240 (сам PR пока не доехал, но я думаю скоро доедет. В любом случае, нас интересует для целей этой задач…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:00:24.182Z",
+  "lastResponseAt": "2026-11-28T10:11:47.643Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 158781,
+    "cacheReadTokens": 3434930,
+    "outputTokens": 65373,
+    "thinkingTokens": 24549,
+    "responses": 23,
+    "costUsd": 5.842818
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 158781,
+      "cacheReadTokens": 3434930,
+      "outputTokens": 65373,
+      "thinkingTokens": 24549,
+      "responses": 23,
+      "costUsd": 5.842818
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 99,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
