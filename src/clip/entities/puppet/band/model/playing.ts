@@ -37,6 +37,19 @@ const frac = (value: number): number => value - Math.floor(value);
 export const thump = (phase: number): number =>
   phase < 0.06 ? phase / 0.06 : Math.exp(-4.5 * (phase - 0.06));
 
+// The fretting hand frets from under the neck, the elbow hanging below it,
+// which an arm can only do with the hand well out from the shoulder and not
+// far below it: so the guitar hangs this far from the shoulders to the hips,
+// its neck tilted up this many degrees, and the hand keeps to the neck's
+// outer half.
+const HANG = 0.6;
+const GUITAR_TILT = -30;
+const BASS_TILT = -22;
+// How far under the strings, in the guitar's units, the neck's lower edge is.
+const NECK_EDGE = 9;
+// Which way the fretting elbow folds: down, a little towards the body.
+const FRETTING_ELBOW: Point = [-0.2, 1];
+
 /** What every player's cycle gives: a pose already fitted to its build, and a face. */
 type Playing = {
   rig: Pose;
@@ -78,12 +91,12 @@ export function strumming(strings: Strings, beats: number): Strumming {
   const belly = mix(
     mix(body.shoulderL, body.shoulderR, 0.5),
     mix(body.hipL, body.hipR, 0.5),
-    0.72,
+    HANG,
   );
   const guitar = {
     x: belly[0] - (bass ? 52 : 36) * size,
     y: belly[1],
-    rot: (bass ? -14 : -24) + (bass ? 1 : 3) * stroke,
+    rot: (bass ? BASS_TILT : GUITAR_TILT) + (bass ? 1 : 3) * stroke,
     scale: (bass ? 1.15 : 1.1) * size,
   };
   const onBody = (point: Point): Point =>
@@ -101,9 +114,12 @@ export function strumming(strings: Strings, beats: number): Strumming {
       body,
       {
         L: onBody(picking),
-        R: onBody(add(fretAt(strings, lerp(0.15, 0.8, chord)), [0, 4])),
+        // The fretting palm closes on the neck's lower edge, coming up from
+        // under it, the elbow hanging below.
+        R: onBody(add(fretAt(strings, lerp(0.45, 0.9, chord)), [0, NECK_EDGE])),
       },
       palmOf(build),
+      { R: FRETTING_ELBOW },
     ),
     look: bass
       ? { turn: 0.8 * Math.sin((Math.PI * beats) / 2) }

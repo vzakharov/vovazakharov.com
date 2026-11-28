@@ -1,8 +1,12 @@
 import { ink, INK_PALETTE, path, type Pen } from '@/clip/shared/ink';
 
-export const GRIPS = ['fist', 'open', 'point', 'sleeve'] as const;
+export const GRIPS = ['fist', 'open', 'point', 'sleeve', 'wrap'] as const;
 
-/** What a hand is doing; `sleeve` is a straitjacket's, the hand lost inside it. */
+/**
+ * What a hand is doing; `sleeve` is a straitjacket's, the hand lost inside it.
+ * `wrap` closes round what `front` draws, as a fretting hand on a neck: the
+ * palm under it, the fingers (`fingertips`) over it.
+ */
 export type Grip = (typeof GRIPS)[number];
 
 // A right hand in its own units: the wrist at the origin, the fingers down the
@@ -19,6 +23,21 @@ const PALM_LINES = path('M -9,26 C -2,32 8,32 13,26');
 const FINGER = path('M -6,30 L -6,68 C -6,77 5,77 5,68 L 6,30 Z');
 const CUFF = path('M -17,-6 L -22,58 C -10,72 12,72 22,58 L 17,-6 Z');
 const STRAP = path('M 0,66 C 10,84 -8,98 2,122');
+// A wrapping hand's fingers, held across the forearm as on a neck it runs
+// along: up from the palm's edge onto the front of what it holds.
+const FINGERTIPS = path(
+  [8, 17, 26, 35]
+    .map(
+      (y) =>
+        `M -6,${y - 4} L 7,${y - 4} C 15,${y - 4} 15,${y + 4} 7,${y + 4} L -6,${y + 4} Z`,
+    )
+    .join(' '),
+);
+
+/** The fingers of a `wrap` hand, in the hand's own units: drawn after what they close over. */
+export function fingertips(pen: Pen, seed: number): void {
+  ink(pen, FINGERTIPS, { fill: INK_PALETTE.skin, width: 3.5, seed });
+}
 
 /** A hand at the origin, fingers down the y axis; place and turn it with `at`. */
 export function hand(
@@ -43,6 +62,11 @@ export function hand(
     }
     case 'point': {
       ink(pen, FINGER, skin);
+      ink(pen, FIST, skin);
+      ink(pen, THUMB, { width: 3.5, seed: seed + 2 });
+      break;
+    }
+    case 'wrap': {
       ink(pen, FIST, skin);
       ink(pen, THUMB, { width: 3.5, seed: seed + 2 });
       break;

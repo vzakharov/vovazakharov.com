@@ -60,7 +60,7 @@ export function player(pen: Pen, role: Role, options: PlayerOptions): void {
         figure(pen, pose, {
           ...dress,
           look: face(playing.look),
-          grips: { L: role === 'bass' ? 'point' : 'fist', R: 'fist' },
+          grips: { L: role === 'bass' ? 'point' : 'fist', R: 'wrap' },
           front: () => {
             limb(
               pen,
