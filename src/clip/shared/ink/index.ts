@@ -1,3 +1,16 @@
+export { clipped } from './clip';
+export {
+  add,
+  clamp,
+  distance,
+  heading,
+  lerp,
+  mix,
+  smoothstep,
+  sub,
+  times,
+  turned,
+} from './geometry';
 export type { InkStyle, Pen, Place } from './ink';
 export { at, ink, limb, penAt, STAGE } from './ink';
 export { inLayer } from './layer';

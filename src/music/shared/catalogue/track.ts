@@ -1,6 +1,6 @@
 import type { Locale } from '@/kernel/shared/i18n';
 import type { Script } from '@/kernel/shared/lib/script-preference';
-import type { WithLink } from '@/kernel/shared/typings';
+import type { WithAudio, WithLink } from '@/kernel/shared/typings';
 
 import type { Slugged } from '@/blog/shared/content';
 
@@ -22,13 +22,8 @@ export function billingText(billing: Billing, script?: Script): string {
     .join('');
 }
 
-/** The two files the player chooses between. */
-export type Streamed = {
-  /** The URL of the file the player plays where the reader asks for lossless, `playedName`'s. */
-  audio: string;
-  /** What the player plays otherwise. */
-  mp3: string;
-};
+/** The two files the player chooses between: `audio` where the reader asks for lossless, `playedName`'s, and `mp3` otherwise. */
+export type Streamed = WithAudio & { mp3: string };
 
 /**
  * A song as the player needs it: resolved at build time from the collection and

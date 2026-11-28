@@ -5,7 +5,7 @@ language: ru
 project: ['Грёбаный бал']
 repo: 'studentka'
 album: stronger-than-love
-track: 2
+track: 3
 seconds: 253
 mp3Bytes: 10107404
 explicit: false

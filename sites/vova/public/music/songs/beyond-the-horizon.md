@@ -4,10 +4,9 @@ date: 2026-03-24
 language: ru
 project: ['Грёбаный бал']
 repo: 'bezm'
-album: stronger-than-love
-track: 6
+album: null
 seconds: 227
-mp3Bytes: 9090322
+mp3Bytes: 9090225
 explicit: false
 credits:
   lyrics: ['Мария Коськова', 'Vova Zakharov']

@@ -5,7 +5,7 @@ language: ru
 project: [Грёбаный бал]
 repo: rak
 album: stronger-than-love
-track: 5
+track: 7
 seconds: 219
 mp3Bytes: 8753537
 credits:

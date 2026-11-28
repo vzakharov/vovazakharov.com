@@ -48,11 +48,145 @@ The operator answered the first, the same day, verbatim:
 
 2–4 stand unanswered, so their defaults in § "Design decisions" hold.
 
+## Steering since
+
+2026-11-28, with a screenshot of the usage limits (5-hour 28%, weekly all models
+78%, weekly Fable 4%, the weekly ones resetting Monday 23:00), verbatim:
+
+> 1- нужно поглядывать за лимитом и вовремя фиксировать прогресс (в идеале ещё
+> разворачивать его -- либо артефактом, либо на превью. в принципе артефакта
+> должно хватить)
+>
+> 2- #240 скоро смерджится, надо будет его вмерджить
+>
+> 3- как всё закончим, и если лимит ещё не кончится, нужно сделать вертикальную
+> версию 30 секунд для сториса в телеграмме, и заканчиваться он должен короткой
+> нарезкой из видюшек, как в конце
+> https://github.com/vovas-music/lebed/commit/161d879e7e1e9dd0e1c7299ddf4bc5b8fc92fe6d#diff-99cc97a52a50eeba0c2eb0eb798aeafc2ecf7d006de07acb4c6324b82ef8acb1
+> (только используемые видюшки надо выложить в релиз, а не в репу)
+>
+> 4- а, ну и то что здесь делаем, тоже лучше делать через релизы, чтобы не
+> забить всю историю
+
+And a question a few minutes later, verbatim:
+
+> а, собственно, видео же никто генерить и не будет пока мы не завершим, это
+> будет обычный хтмл? у тебя чуть ли не тула для таких видео-артефактов
+> ("эксплейнеров") есть, но не знаю, насколько она подходит для концертов в
+> дурдоме гг
+
+Answered: yes, plain HTML until the end, the mp4 walked out of the same code
+last. The tool is the "Motion" artifact type, and it was weighed and left: it
+allows no scene under a second and no more than three cuts a second, which is
+the zapping; its looks must suit a room of coworkers; and a film lives in the
+artifact's own store, so the site's page would no longer be the clip's code. One
+thing is taken from it as the clip's own rule: **no full-frame flash faster than
+three a second** — cuts ride the beat (about 2.6 a second), never a strobe.
+
+Then the song's structure by feel, verbatim:
+
+> обращай внимание ещё на изменения темпа, там примерно такая структура:
+>
+> до 0:19 -- вступление (дискретные удары в начале такта), до 0:28 --
+> double-time мясо до 0:36 -- первые полкуплета, бочка на четвертях, почти
+> танцевальная до 0:43 -- вторая половина, типичный панковский standard time до
+> 1:00 -- припев, халфтайм до 1:17 -- предбридж, четверть тайм (т.е. в 2 раза
+> медленнее халфатайма) до 1:35 -- мелодичный бридж, четверть тайм потом до
+> конца -- полностью меняется темп, медленный брейдаун с глитчами
+
+It replaces the lead's own section map wherever they differ; § "The cut by feel"
+below is the shot list redone against it.
+
+And on how the rhythm shows, verbatim:
+
+> ритм должен чувствоваться в видеоряде -- не перебарщивая, конечно, но нет-нет
+> да бочка/ведущий должны совпадать со сменами кадра или ещё какими-то ощутимыми
+> движениями
+
+Then, on the lead's "measure the ending's tempo separately", verbatim:
+
+> я не уверен что это только к концовке относится, интро возможно тоже другого
+> темпа. пусть по каждой секции замерит
+>
+> #240 тем временем смерждился
+
+So every section's tempo and downbeat is measured on its own, none assumed.
+
+On the rhythm note: the kick and the snare are onset lists in the score, and
+every scene has at least one thing that lands on them — a cut, a camera punch, a
+head coming down, the TV's glow — while most of the frame stays off the grid, so
+it reads as feel and not as a metronome.
+
+Then, with the storyboard's kids'-show panel attached (the host waving on the
+meadow under the grinning sun, the bunny behind the hill), verbatim:
+
+> припев такой faux-счастливый должен быть, понимаешь, типа все веселятся и
+> скачут по этому creepy лугу (но конечно это должно перемежаться с выскребанием
+> надписи в дурдоме)
+
+And right after: «врезки группы тоже можно делать» — the band playing live may
+cut in as well.
+
+Then, on what comes after and on moving accounts, verbatim:
+
+> в конце видео нужно будет добавить на страницу песни -- но это уже скорее
+> после тебя опус займётся, и скорее с нового аккаунта (лимит тут кончится).
+>
+> кстати, да, необходимость переноса на новый акк нужно учитывать -- релеи
+> должны быть актуальными
+
+So: the finished video goes onto the song's page (`/music/songs/horowo`) as a
+last step, likely by an Opus session on another account. And the limit here will
+run out, so the run must be resumable from the repository alone by a session
+that can reach none of these sessions: the parked relay file is brought current
+at every milestone, and nothing that matters lives only in a session.
+
+The lead's reading of the four notes, each its own and open to correction:
+
+1. Every milestone ends committed, pushed and playable from a link: the clip as
+   it stands is published as an artifact (the page's code bundled into one HTML
+   file, the song beside it). A preview slot is the fallback. The weekly limit
+   across all models is the tight one, so wave 2 is sized to what is left rather
+   than to what would be fastest.
+2. When PR 240 lands on `main`, `main` is merged into this branch, `clip` takes
+   `music` as a parent and the audio comes from the catalogue.
+3. Last, if the limit allows: a vertical 30-second cut for a Telegram story,
+   ending on a quick montage of video clips as that commit's does. The clips it
+   uses go into a GitHub release, never the repository.
+4. Nothing binary and heavy that this work produces is committed: every mp4 is a
+   release asset. Board frames stay committed, small and few, under
+   `docs/remove-before-merging/`, which a squash never carries to `main`.
+
+On the tape's test card frame (the plate reading «КАНАЛ / ГБ»), attached to the
+message:
+
+> телеканал / грёбаный бал / представляет
+
+The lead's reading: «ГБ» stands for «Грёбаный бал», and the clip opens on the
+channel's ident — the test card's plate reads «ТЕЛЕКАНАЛ», «ГРЁБАНЫЙ БАЛ»,
+«ПРЕДСТАВЛЯЕТ» on three lines, each line arriving on one of the intro's
+bar-start hits, before the kids' show begins. The bug in the corner stays «ГБ».
+The slashes are read as line breaks, not as three separate cards.
+
+On the cast sheet, attached:
+
+> чё-то у нас басисты-гитаристы левую руку не с той стороны грифа держат) я
+> понимаю что треш, но на святое!
+
+The lead's reading: the guitarist's and the bassist's fretting arm is draped
+over the neck from above, the fist sitting on top of the fretboard. A player's
+fretting hand comes from under the neck: elbow down, palm behind the neck,
+fingers curling over its top edge onto the frets. A fix-up package on Opus,
+branch `claude/horowo-clip-cast-fix-lrxscd`.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
 on `claude/horowo-song-mastering-oia0kq` (PR 240), 1:59.7, about 155 BPM. The
-words are `…/lyrics/horowo.md` on that branch. Measured from the mix:
+words are `…/lyrics/horowo.md` on that branch. The operator's map of its
+sections by feel (§ "Steering since") is the authority on where they start and
+how they move; the lead's own measurements from the mix, kept for the detail
+inside them:
 
 - **0:00–0:18** — the first stanza over no bass or kick, ending on «Как, сука,
   хорошо» at 0:16.
@@ -67,6 +201,18 @@ words are `…/lyrics/horowo.md` on that branch. Measured from the mix:
 
 The final master replaces the mix when PR 240 lands; nothing here depends on
 which master wins.
+
+The song's own repository, `vovas-music/horowo`, is readable with `gh api` and
+over `raw.githubusercontent.com`: the master the page plays
+(`horowo_master.master.mp3`), and the isolated vocal stem
+`Media/audio [vocals].wav`, whose loudness envelope drives the jaw.
+
+For the story cut, the operator's reference is the last seconds of
+`Я куплю тебе дом.mov` (105 MB) in `vovas-music/lebed`, added by commit
+`161d879e` with six short generated clips under `Media/`: it ends on a quick
+montage of them. Here the montage is cut from the clip's own shots, rendered to
+files that go into a release — the lead's reading, to be checked against the
+reference's last seconds before cutting.
 
 ## Design decisions
 
@@ -117,30 +263,50 @@ their picture:
   tape: chroma split, scanlines, a tracking bar, on-screen display.
 - **Reality** — full 16:9, clean ink, dark: whoever is watching the channel.
 
-The shot list, against § "The song":
+#### The cut by feel
 
-- **0:00–0:18, broadcast** — a children's show. The host sings the first stanza
-  to camera; the cardboard sun's eyes follow him; the bunny rises behind the
-  hill from 0:08; on «Как, сука, хорошо» the jaw drops all the way.
-- **0:18–0:20** — the set wall falls, static.
-- **0:20–0:28, broadcast** — the band live in a TV studio, cut on the beat
-  between the four and a wide shot; the audience is bunny ears.
-- **0:28–0:42, reality and broadcast** — the bedroom at 3 am, the TV on in the
-  corner. Each «(Хорошо!)» is a cut to the TV full-frame on a new channel for
-  about half a second (the teleshop spoon, the weather, a quiz board with the
-  three words, a village postcard, the news, a test card), and the line that
-  answers it plays in the bedroom: the sweat, the bunny-shaped hole in the
-  wallpaper, the bunny by the window, then nearer.
-- **0:42–1:02, broadcast** — the chorus live, serotonin falling hard.
-- **1:02–1:32** — the chant: zapping speeds up, every «Хорошо» a channel, the
-  bunny on each one nearer the glass.
-- **1:32–1:36, reality** — the TV goes dark on the drop. The same room is the
-  ward: the three words written with a fingernail in blood, tallies struck
-  through in fives running past every edge, the bunny's shadow on the wall.
-- **1:36–1:53** — each stab a channel at full colour, each hole the ward.
-- **1:50–1:58** — pull back through the window: the hospital is a snow globe in
-  the bunny's paws, serotonin falling only inside; the picture collapses to a
-  CRT dot.
+The shot list, against the operator's map of the tempo in § "Steering since":
+the picture's pace is the drummer's, so it halves when he does.
+
+- **0:00–0:19, intro, a hit on each bar's first beat — broadcast.** A children's
+  show. The host sings the first stanza to camera; nothing moves between the
+  hits and everything jolts on one: the cardboard sun's eyes snap to him, the
+  bunny rises a notch behind the hill, the camera punches in. On «Как, сука,
+  хорошо» the jaw drops all the way; the set wall falls into static.
+- **0:19–0:28, double time — broadcast.** The band live in a TV studio at full
+  tilt: a cut on every beat between the four and a wide shot, the audience a row
+  of bunny ears.
+- **0:28–0:36, first half of the verse, kick on the quarters, almost a dance —
+  reality and broadcast.** The bedroom at 3 am, the TV in the corner pulsing on
+  every quarter, the man in the bed nodding along against his will. Each
+  «(Хорошо!)» is the TV full-frame on a new channel for a beat (the teleshop
+  spoon, the weather, a quiz board with the three words, a village postcard),
+  and the line that answers it plays in the bedroom.
+- **0:36–0:43, second half, straight punk time.** The same exchange, rawer: the
+  bunny-shaped hole in the wallpaper, the bunny by the window, then at the foot
+  of the bed; the channels (the news, a test card) have him in them.
+- **0:43–1:00, chorus, half time — broadcast, cut with reality.** Faux-happy:
+  back on the kids' show meadow, and everyone is having a wonderful time. The
+  four of the band hop about with their instruments, bunnies dance in a ring,
+  the cardboard sun bobs and grins, the letter blocks bounce — all of it landing
+  together on the half-time snare, smiles a size too wide, serotonin coming down
+  like confetti. Between the hops, hard cuts to the ward for a beat or two: a
+  fingernail gouging the next strokes of «КАК, СУКА, ХОРОШО» into the paint, the
+  words further along at each return and finished by the chorus's end. The third
+  thing in the rotation is the band live in the studio, a bar at a time — three
+  pictures that should not share a song: the meadow, the wall, the gig.
+- **1:00–1:17, pre-bridge, quarter time.** The zapping slows to a crawl instead
+  of speeding up: one channel a bar, each held long enough to read, the bunny on
+  every one a step nearer the glass. Dread by patience.
+- **1:17–1:35, the melodic bridge, quarter time — reality.** The one tender
+  stretch. The bedroom gives way to the ward without a cut: the words the chorus
+  scratched are on the wall, the tallies spread past every edge, the bunny sits
+  down beside him and they watch the TV snow together.
+- **1:35–end, a new, slow tempo, a breakdown with glitches.** The tape itself
+  breaks down: each stab a channel at full colour torn by tracking errors, each
+  hole the silent ward. Then the pull back through the window — the hospital is
+  a snow globe in the bunny's paws, serotonin falling only inside — and the
+  picture collapses to a CRT dot.
 
 ### How it is built
 
@@ -185,26 +351,52 @@ The lead is `session_01MZoAKCKwqeVGKcCw6iKKPs` on `claude/horowo-clip-lrxscd`.
 The sketch the storyboard was drawn with is committed for the children to port
 from, under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`.
 
-Wave 1, started 2026-11-28, each on its own branch off the lead's:
+The lead landed the drawing kit itself, `src/clip/shared/ink` (`Pen`, `ink`,
+`limb`, `at`, `path`, `polygon`, `ellipse`, `rng`, `noise`, `INK_PALETTE`,
+`STAGE`), before anyone started, so no two packages write it twice. A child that
+needs more adds a new file there and one export line.
 
-- **engine**, Opus, `claude/horowo-clip-engine-lrxscd` — the app skeleton and
-  its MASD wiring, the drawing kit `src/clip/shared/ink` (pushed first, since
-  the others draw with it), the timeline, the page and its player, the export
-  script, the beat grid and jaw data.
-- **cast**, Fable, `claude/horowo-clip-cast-lrxscd` — the puppet in its four
-  band forms, the bunny, the instruments, the serotonin fall, the scratched
-  lettering and tallies. Flagship because it is the clip's look.
-- **tape**, Opus, `claude/horowo-clip-tape-lrxscd` — the 4:3 tape picture, the
-  channel change, static, the on-screen display, the CRT switching off.
+Wave 1, started 2026-11-28 10:29 UTC from the lead's `71b7bb75`, each on its own
+branch; each reports with one `send_message` to the lead:
 
-Wave 2, once cast is merged: the broadcast scenes, the reality scenes, the pack
-of zapped channels. The lead assembles the timeline and cuts it to the beat.
+- **engine**, Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`,
+  `claude/horowo-clip-engine-lrxscd` — `clip` into vova's parents, the route,
+  the page and its player (`?t=` stills), the timeline with a placeholder card
+  per section, the score (beat grid, word timings, `jaw(t)`, `energy(t)`, the
+  «Хорошо» onsets), the export script `film:clip`. Owns `src/clip/pages`,
+  `src/clip/scripts`, `masd.json`, `package.json`, `knip.ts`.
+- **cast**, Fable, `session_01MZoAKBkF3h1YJyKztvmqtT`,
+  `claude/horowo-clip-cast-lrxscd` — the puppet as a rig of named joints with
+  the hinged jaw, outfits, the four band forms, instruments, playing cycles on a
+  beat phase, a cast sheet. Flagship because it is the clip's look. Owns
+  `src/clip/entities/puppet`.
+- **tape**, Opus, `session_01MZoAKD4RDV89XAtTpvb3py`,
+  `claude/horowo-clip-tape-lrxscd` — the 4:3 tape picture with a `wear` dial,
+  the dot-matrix on-screen display, the channel change, static, the tube
+  switching off, reality's grain and vignette, a test card. Owns
+  `src/clip/shared/tape`.
+- **props**, Opus, `session_01MZoAKBLUod263MnDXVYSWV`,
+  `claude/horowo-clip-props-lrxscd` — the bunny with a nearness dial, its
+  wallpaper and the audience's ears, stroke lettering for the whole alphabet in
+  three renderings (plain, bubble, scratched), the tally wall, the serotonin
+  fall, the snow globe. Split from cast so the two run side by side. Owns
+  `src/clip/entities/bunny`, `src/clip/shared/lettering`.
 
-Session ids go here as each child is created.
+Frames from each arrive as `docs/remove-before-merging/frames/<package>-*.jpg`.
+
+Wave 2, once wave 1 is merged and wired: the broadcast scenes, the reality
+scenes, the pack of zapped channels — sized to the limit left. The lead
+assembles the timeline and cuts it to the beat.
 
 ## Built, in flight, left
 
 - **Built**: the song map; the cast sheet, three storyboard sheets and the
-  second take of the wall.
-- **In flight**: wave 1.
-- **Left**: wave 2, the assembly, the export, the preview.
+  second take of the wall; the drawing kit.
+- **In flight**: wave 1, four children.
+- **Left**: merging and wiring wave 1; the clip as an artifact; wave 2; the
+  assembly; the mp4 as a release asset; the 30-second vertical story cut, last.
+
+PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
+page, words and transcripts are in the tree, and the engine was told to merge
+the lead's branch, take `music` as `clip`'s second parent and read the audio
+from the catalogue.

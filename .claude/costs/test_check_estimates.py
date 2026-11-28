@@ -30,6 +30,9 @@ ESTIMATED = replace(estimate_of("2026-03-04T07:00:00.000Z"), subject_line=SUBJEC
 # What the current writer fills on every row, which a fixture row would
 # otherwise leave null.
 FILLED = {"operator_words": OperatorWords(chat=0, review=0), "branch_lines": {}}
+# A session that responded after the ledger began counting words and lines;
+# ROW's own ended before, so its nulls stand.
+COUNTING = "2026-11-09T00:00:00.000Z"
 
 
 class TheGate(unittest.TestCase):
@@ -91,11 +94,21 @@ class TheGate(unittest.TestCase):
         self.assertEqual(self.check().returncode, 0)
 
     def test_fails_an_estimated_row_short_of_a_subject_or_a_count_naming_each(self) -> None:
-        self.commit_row("bare", estimate=replace(ESTIMATED, subject_line=None), operator_words=None)
+        self.commit_row(
+            "bare",
+            estimate=replace(ESTIMATED, subject_line=None),
+            operator_words=None,
+            last_response_at=COUNTING,
+        )
         done = self.check()
         self.assertEqual(done.returncode, 1)
         self.assertIn("bare lacks estimate.subjectLine, operatorWords:", done.stderr)
         self.assertIn("--session bare", done.stderr)
+
+    def test_passes_a_null_count_on_a_session_that_ended_before_it_was_counted(self) -> None:
+        self.commit_row("early", estimate=ESTIMATED, operator_words=None, branch_lines=None)
+        done = self.check()
+        self.assertEqual(done.returncode, 0, done.stderr)
 
     def test_fails_an_estimated_row_missing_a_key_the_writer_writes(self) -> None:
         path = self.write_row("old", estimate=ESTIMATED)

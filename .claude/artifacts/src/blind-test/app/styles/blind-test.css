@@ -1,0 +1,259 @@
+/* Layout: a song rack on the left, the deck on the right — a desk, not a form; one column on a phone. */
+:root {
+  --bg: #eef0ee;
+  --surface: #fbfcfb;
+  --fg: #1c2321;
+  --muted: #5d6965;
+  --line: #cfd6d3;
+  --accent: #1d6b64;
+  --accent-fg: #f4fbf9;
+  --danger: #a3332a;
+  --font-text:
+    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data:
+    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141917;
+    --surface: #1c2321;
+    --fg: #e4ebe8;
+    --muted: #93a19c;
+    --line: #2f3a37;
+    --accent: #5fbcb2;
+    --accent-fg: #0e1a18;
+    --danger: #f0897e;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #141917;
+  --surface: #1c2321;
+  --fg: #e4ebe8;
+  --muted: #93a19c;
+  --line: #2f3a37;
+  --accent: #5fbcb2;
+  --accent-fg: #0e1a18;
+  --danger: #f0897e;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#blind-test {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-block: 2rem 3rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (width <= 720px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.label {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.songs {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.song {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+}
+
+.song:hover {
+  border-color: var(--line);
+}
+
+.song[aria-current="true"] {
+  border-color: var(--line);
+  background: var(--surface);
+  font-weight: 600;
+}
+
+.song-name {
+  min-width: 0;
+}
+
+.song-verdict {
+  flex: none;
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.main {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.deck {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.song-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.switcher {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.variant {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.85rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  font-family: var(--font-data);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.variant[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* The picked variant keeps its mark whichever one is playing. */
+.variant[data-picked="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.variant[data-picked="true"]::after {
+  content: " ✓";
+}
+
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.play {
+  flex: none;
+  width: 6.5rem;
+  padding: 0.55rem 0;
+  border: 1px solid var(--fg);
+  border-radius: 6px;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.position {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--accent);
+}
+
+.time {
+  flex: none;
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.hint,
+.status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.error {
+  margin: 0;
+  font-weight: 600;
+  color: var(--danger);
+  overflow-wrap: anywhere;
+}
+
+.fatal-detail {
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+@media (width <= 480px) {
+  .transport {
+    flex-wrap: wrap;
+  }
+
+  .position {
+    flex-basis: 100%;
+    order: 3;
+  }
+}
