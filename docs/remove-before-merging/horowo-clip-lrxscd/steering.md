@@ -238,3 +238,12 @@ At about 18:05 UTC, to the lead's question whether his 77% was the share left or
 > сейчас 81%, пока живём. главное чтобы при пересечении потерялось минимум работы в том смысле, чтобы сессия на новом аккаунте смогла это подхватить
 
 The lead's reading: the figure is the share spent, and it rose four points in the wave's first twenty minutes, so the account may run out before the wave lands. The rule is that crossing the limit loses as little as possible: every child pushes each working step at once and keeps a notes file on its own branch (`w3-<letter>-notes.md` beside this file) saying what is built, what is next and how its exports are wired, so a session on another account can carry any package on from its branch alone; the relay summary names those files. Depth yields to that: a package reports as soon as its notes are built, and second passes wait.
+
+A few minutes later, on the line that precedes that break, verbatim:
+
+> хорошо-шо-шо можно стилизовать:
+> хорошо
+> хороШО
+> хоро<ещё больше>ШО</ещё больше>
+
+The lead's reading: «Так хорошо-шо-шо» is lettered as a stack of three lines building up as sung («хорошо-» 42.56, «шо-» 43.04, «шо» 43.32) — «хорошо», then «хороШО» with the ШО capital, then «хороШО» with the ШО larger still — in the lettering of the break's words, over the verse's last picture rather than on black, so the cut to «НЕ» keeps the type and drops the world. Package C exports it as letters with no ground; the lead lays it over the verse's tail at the seam and silences the overlay of sung lines there.
