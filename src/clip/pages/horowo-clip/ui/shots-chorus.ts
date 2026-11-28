@@ -4,6 +4,7 @@ import { aerobics } from '@/clip/widgets/channels';
 import { gigInsert } from '@/clip/widgets/gig';
 import {
   FRAMINGS,
+  lyricBreak,
   meadowBurst,
   meadowParty,
 } from '@/clip/widgets/meadow-party';
@@ -98,18 +99,14 @@ function rotation(): Shot[] {
 
 const rotated = rotation();
 
-const black: Drawing = () => {
-  // The frame's own ground, left bare.
-};
-
 /**
- * The chorus: black from its first word to «счастья» — the span the intro's
- * face on black takes — then the meadow, seen for the first time, slamming in
- * on the kick under «счастья» and cut on the half-time pulse with the ward
- * wall, the aerobics show and the other storylines.
+ * The chorus: «не сдохнуть бы» on black, word by word, then the meadow, seen
+ * for the first time, slamming in on the kick under «счастья» and cut on the
+ * half-time pulse with the ward wall, the aerobics show and the other
+ * storylines.
  */
 export const CHORUS_SHOTS: readonly Shot[] = [
-  { from: opening, to: BURST, draw: black },
+  { from: opening, to: BURST, draw: lyricBreak },
   { from: BURST, to: rotated[0]?.from ?? closing, draw: meadowBurst },
   ...rotated,
 ];

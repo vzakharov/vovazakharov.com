@@ -5,4 +5,6 @@ export const PARTY_PALETTE = {
   haze: '#c9f0ff',
   /** The glow a too-happy face casts: drawn as two pink cheeks. */
   blush: '#ff7ac8',
+  /** The words on black before the meadow bursts in. */
+  lyric: '#f4f1ea',
 } as const;
