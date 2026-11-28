@@ -8,6 +8,11 @@ const LINE = { text: 'тут', from: 2, to: 2.2 };
 const CALL = { text: 'Ох', from: 2.1, to: 2.5 };
 const WORDS_HERE = [{ text: 'Хорошо', from: 1, to: 1.6 }, LINE, CALL];
 
+/** No stem anywhere, so every word opens a syllable at a time. */
+const unmeasured = (): undefined => undefined;
+/** The stem as loud as it gets, everywhere. */
+const loud = (): number => 1;
+
 describe('syllables', () => {
   it('counts the vowels, either case, ё included', () => {
     assert.equal(syllables('Хорошо'), 3);
@@ -19,40 +24,65 @@ describe('syllables', () => {
   });
 });
 
-describe('jaw', () => {
+describe('jaw, read off the stem', () => {
+  it('is shut between words, however loud the stem', () => {
+    for (const t of [0.5, 1.8, 3]) assert.equal(jaw(t, WORDS_HERE, loud), 0);
+  });
+
+  it('opens as loud as the stem sings inside a word', () => {
+    assert.equal(jaw(1.3, WORDS_HERE, loud), 1);
+    assert.equal(
+      jaw(1.3, WORDS_HERE, () => 0.3),
+      0,
+    );
+    const half = jaw(1.3, WORDS_HERE, () => 0.725);
+    assert.ok(half > 0.4 && half < 0.6, String(half));
+  });
+
+  it('opens on the song’s own words', () => {
+    assert.ok(WORDS.some((word) => jaw((word.from + word.to) / 2) > 0.5));
+  });
+});
+
+describe('jaw, where no stem was measured', () => {
   it('is shut before, between and after words', () => {
-    for (const t of [0.5, 1.8, 3]) assert.equal(jaw(t, WORDS_HERE), 0);
+    for (const t of [0.5, 1.8, 3]) {
+      assert.equal(jaw(t, WORDS_HERE, unmeasured), 0);
+    }
   });
 
   it('opens once a syllable, shut at each syllable edge', () => {
     // Хорошо: three syllables of 0.2 s each.
-    assert.equal(jaw(1, WORDS_HERE), 0);
+    assert.equal(jaw(1, WORDS_HERE, unmeasured), 0);
     for (const n of [0, 1, 2]) {
-      const middle = jaw(1 + 0.2 * n + 0.08, WORDS_HERE);
+      const middle = jaw(1 + 0.2 * n + 0.08, WORDS_HERE, unmeasured);
       assert.ok(
         middle > 0.9,
         `syllable ${String(n)} opens to ${String(middle)}`,
       );
-      assert.ok(jaw(1 + 0.2 * n + 0.199, WORDS_HERE) < 0.4);
+      assert.ok(jaw(1 + 0.2 * n + 0.199, WORDS_HERE, unmeasured) < 0.4);
     }
   });
 
   it('stays in [0, 1]', () => {
     for (let t = 0; t < 3; t += 0.01) {
-      const open = jaw(t, WORDS_HERE);
+      const open = jaw(t, WORDS_HERE, unmeasured);
       assert.ok(open >= 0 && open <= 1);
     }
   });
 
   it('holds the wider of two overlapping words', () => {
     const t = 2.15;
-    assert.equal(jaw(t, WORDS_HERE), Math.max(jaw(t, [LINE]), jaw(t, [CALL])));
+    assert.equal(
+      jaw(t, WORDS_HERE, unmeasured),
+      Math.max(jaw(t, [LINE], unmeasured), jaw(t, [CALL], unmeasured)),
+    );
   });
 
-  it('reads the song by default', () => {
-    const first = WORDS[0];
-    assert.ok(first !== undefined);
-    assert.ok(jaw((first.from + first.to) / 2) > 0);
+  it('opens on the last word, which the stem ends before', () => {
+    const last = WORDS.at(-1);
+    assert.ok(last !== undefined);
+    assert.ok(jaw(last.from + (last.to - last.from) * 0.1) > 0);
   });
 });
 

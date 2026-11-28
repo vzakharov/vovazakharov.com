@@ -1,6 +1,9 @@
 export { CHANT, VERSE_CALLS } from './calls';
 export { energy, ENERGY_RATE } from './energy';
-export { barAt, barTime, BEAT, beatAt, beatTime, pulse } from './grid';
+export { punch } from './hits';
 export { jaw, wordAt } from './jaw';
+export { KICKS } from './kick-data';
+export { pulse } from './pulse';
+export { barSeconds, beatSeconds, sectionAt, SECTIONS } from './sections';
 export { SONG_SECONDS } from './song';
 export { through, within } from './span';

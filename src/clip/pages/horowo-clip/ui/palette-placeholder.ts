@@ -1,21 +1,13 @@
-/** One wash per kind of stand-in shot, so a cut between two reads at a glance. */
-export const WASHES = {
-  broadcast: '#3c6e8f',
-  channel: '#b2452f',
-  reality: '#2b2a3a',
-  live: '#7a3f8c',
-  ward: '#4d5a3c',
-  globe: '#2f5d63',
-} as const;
-
-export type Wash = keyof typeof WASHES;
-
-/** The colours a stand-in card draws over its wash, and the player round the stage. */
+/** The colours a stand-in card draws, and the player round the stage. */
 export const PLACEHOLDER_PALETTE = {
-  /** The flash on each beat and the lettering. */
+  /** The wash under a reality card. */
+  reality: '#2b2a3a',
+  /** What dims the test card under a broadcast card's lettering. */
+  dim: '#10121a',
+  /** The flash on each pulse and the lettering. */
   light: '#fff6dc',
-  /** The ring round a card on an onset a cut lands on. */
-  cue: '#ff3b2f',
+  /** The ring round a card as the kick lands. */
+  kick: '#ff3b2f',
   /** The jaw meter's fill. */
   mouth: '#c0392b',
   /** The scrub bar: its track and how much has played. */

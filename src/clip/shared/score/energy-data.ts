@@ -1,4 +1,4 @@
-// Written by `pnpm measure:clip` from the master; run it again rather than editing.
+// Written by `pnpm measure:clip`; run it again rather than editing.
 
 /** The mix’s loudness, one digit a frame at `ENERGY_RATE`, four seconds a line. */
 export const ENERGY_DIGITS = [
