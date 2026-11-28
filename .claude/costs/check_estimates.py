@@ -80,16 +80,25 @@ def ledger_rows(branch: str) -> List[Read]:
     return [(row, text) for row, text in rows if row.branch == branch]
 
 
+# When the ledger began counting each field, at #265's merge. A session that
+# last responded before it had nothing to count with, and its transcript is
+# gone by now, so its null stands.
+COUNTED_SINCE = {"operatorWords": "2026-11-08T20:41:22.000Z", "branchLines": "2026-11-08T20:41:22.000Z"}
+
+
 def unfilled(row: SessionCost, text: str) -> List[str]:
     """What an estimated row is short of: an `operatorWords` of zero words is
-    filled, one left null is not."""
+    filled, one left null is not, unless the session ended before it was
+    counted."""
     assert row.estimate is not None
     nulls = {
         "estimate.subjectLine": row.estimate.subject_line,
         "operatorWords": row.operator_words,
         "branchLines": row.branch_lines,
     }
-    keys = [*unwritten(row, json.loads(text)), *(key for key, value in nulls.items() if value is None)]
+    ended = row.last_response_at or ""
+    owed = {key: value for key, value in nulls.items() if not (ended and ended < COUNTED_SINCE.get(key, ""))}
+    keys = [*unwritten(row, json.loads(text)), *(key for key, value in owed.items() if value is None)]
     return list(dict.fromkeys(keys))
 
 

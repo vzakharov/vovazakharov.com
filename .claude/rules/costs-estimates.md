@@ -62,7 +62,10 @@ them. A revision replaces it, so its history is git's.
   `subjectLine`, `operatorWords` or `branchLines` — a zero is a count, a null is
   a row that never counted — since a row a later field postdates otherwise lands
   silently short of it. `estimate.py set --session` rewrites a row in the
-  current shape, so it is the fix for both.
+  current shape, so it is the fix for both. A count's null stands on a session
+  that last responded before the ledger began counting it
+  (`check_estimates.py`'s `COUNTED_SINCE`): its transcript is gone, so no
+  command can fill it.
 - **It sizes the task, never the session's pace.** It moves when the task does —
   scope added, a difficulty no estimator would have foreseen, a relay handing
   the rest on. A model that booked its own detours as extra hours would hide
